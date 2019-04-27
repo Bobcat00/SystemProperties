@@ -1,0 +1,4 @@
+name: SystemProperties
+main: com.bobcat00.systemproperties.SystemProperties
+version: ${project.version}
+author: Bobcat00
