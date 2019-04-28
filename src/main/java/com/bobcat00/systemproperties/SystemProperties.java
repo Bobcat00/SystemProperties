@@ -32,7 +32,7 @@ public final class SystemProperties extends JavaPlugin {
     {
         getLogger().info("------------------------------------------------------------");
         Properties pro = System.getProperties();
-        Map<String,String> sortedMap = new TreeMap(pro);
+        Map<Object,Object> sortedMap = new TreeMap<>(pro);
         for (Object obj : sortedMap.keySet())
         {
             getLogger().info("System." + (String)obj + ": " + System.getProperty((String)obj));
