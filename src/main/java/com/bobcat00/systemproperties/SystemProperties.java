@@ -25,6 +25,8 @@ import java.util.TreeMap;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sun.management.OperatingSystemMXBean;
+
 public final class SystemProperties extends JavaPlugin {
     
     @Override
@@ -38,6 +40,8 @@ public final class SystemProperties extends JavaPlugin {
             getLogger().info("System." + (String)obj + ": " + System.getProperty((String)obj));
         }
         
+        OperatingSystemMXBean os = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        getLogger().info("OperatingSystemMXBean.TotalPhysicalMemorySize: " + os.getTotalPhysicalMemorySize());
         getLogger().info("Runtime.availableProcessors: " + Runtime.getRuntime().availableProcessors());
         getLogger().info("Runtime.freeMemory: " + Runtime.getRuntime().freeMemory());
         getLogger().info("Runtime.maxMemory: " + Runtime.getRuntime().maxMemory());
