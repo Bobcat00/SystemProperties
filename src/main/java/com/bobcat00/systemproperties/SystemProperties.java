@@ -16,7 +16,9 @@
 
 package com.bobcat00.systemproperties;
 
+import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +43,33 @@ public final class SystemProperties extends JavaPlugin {
         }
         
         OperatingSystemMXBean os = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-        getLogger().info("OperatingSystemMXBean.TotalPhysicalMemorySize: " + os.getTotalPhysicalMemorySize());
+        getLogger().info("OperatingSystemMXBean.totalPhysicalMemorySize: " + os.getTotalPhysicalMemorySize());
         getLogger().info("Runtime.availableProcessors: " + Runtime.getRuntime().availableProcessors());
         getLogger().info("Runtime.freeMemory: " + Runtime.getRuntime().freeMemory());
         getLogger().info("Runtime.maxMemory: " + Runtime.getRuntime().maxMemory());
         getLogger().info("Runtime.totalMemory: " + Runtime.getRuntime().totalMemory());
         
+        for (MemoryPoolMXBean memoryMXBean : ManagementFactory.getMemoryPoolMXBeans())
+        {
+            if ("Metaspace".equals(memoryMXBean.getName()))
+            {
+                long maxMetaspace = memoryMXBean.getUsage().getMax();
+                if (maxMetaspace >= 0)
+                {
+                    getLogger().info("MemoryPoolMXBean.metaspace.max: " + maxMetaspace);
+                }
+                break;
+            }
+        }
+        
+        for(GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans())
+        {
+            getLogger().info("GarbageCollectorMXBean.name: " + gc.getName());
+        }
+        
         RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
         List<String> arguments = runtimeMxBean.getInputArguments();
-        getLogger().info("RuntimeMXBean.InputArguments: ");
+        getLogger().info("RuntimeMXBean.inputArguments: ");
         for (String str : arguments)
         {
             getLogger().info("  " + str);
