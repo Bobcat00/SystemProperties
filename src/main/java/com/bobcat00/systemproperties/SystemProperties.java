@@ -21,11 +21,15 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -43,6 +47,40 @@ public final class SystemProperties extends JavaPlugin {
     
     @Override
     public void onEnable()
+    {
+        dumpProperties();
+    }
+    
+    @Override
+    public void onDisable()
+    {
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
+    {
+        if (args.length == 1 && args[0].equalsIgnoreCase("dump"))
+        {
+            dumpProperties();
+            sender.sendMessage("System properties written to console / log file.");
+            return true; // Normal return
+        }
+        return false;
+    }
+    
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args)
+    {
+        List<String> argList = new ArrayList<>();
+        if (args.length == 1)
+        {
+            argList.add("dump");
+            return argList.stream().filter(a -> a.startsWith(args[0])).collect(Collectors.toList());
+        }
+        return argList; // returns an empty list
+    }
+    
+    private void dumpProperties()
     {
         NumberFormat nf = NumberFormat.getInstance();
         
@@ -150,9 +188,5 @@ public final class SystemProperties extends JavaPlugin {
         }
         getLogger().info("------------------------------------------------------------");
     }
- 
-    @Override
-    public void onDisable()
-    {
-    }
+
 }

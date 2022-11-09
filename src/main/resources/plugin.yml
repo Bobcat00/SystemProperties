@@ -5,3 +5,14 @@ author: Bobcat00
 api-version: 1.19
 libraries:
     - com.github.oshi:oshi-core:6.3.1
+commands:
+  systemproperties:
+    description: Dump system properties
+    aliases: sysp
+    usage: "Usage: /systemproperties dump"
+    permission: systemproperties.dump
+    permission-message: You do not have permission for this command
+permissions:
+  systemproperties.dump:
+    description: Dump system properties
+    default: op
