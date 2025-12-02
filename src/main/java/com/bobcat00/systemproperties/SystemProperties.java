@@ -121,6 +121,14 @@ public final class SystemProperties extends JavaPlugin {
             {
                 getLogger().info("Motherboard.model: " + baseboard.getModel());
             }
+            if (!baseboard.getVersion().equals("unknown"))
+            {
+                getLogger().info("Motherboard.version: " + baseboard.getVersion());
+            }
+            if (!baseboard.getSerialNumber().equals("unknown"))
+            {
+                getLogger().info("Motherboard.serialnumber: " + baseboard.getSerialNumber());
+            }
             // Disks
             List<HWDiskStore> disks = hardware.getDiskStores();
             for (int i=0; i<disks.size(); i++)
